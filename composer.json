@@ -1,0 +1,22 @@
+{
+  "name": "jinnguyen/puja-session",
+  "description": "Handle session save data, supported save to file, database, MemCache, Redis",
+  "type": "library",
+  "license": "Apache License 2.0",
+  "keywords": ["puja", "session"],
+  "authors": [
+      {
+          "name": "Jin Nguyen",
+          "email": "w2ajax@gmail.com"
+      }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+      "jinnguyen/puja-db": "^1"
+  },
+  "autoload": {
+      "psr-4": {
+          "Puja\\Session\\": "src/"
+      }
+  }
+}
