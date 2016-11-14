@@ -46,6 +46,6 @@ abstract class ConfigureAbstract
 
     public function getTtl()
     {
-        return $this->cfg['ttl'];
+        return (int) $this->cfg['ttl'];
     }
 }

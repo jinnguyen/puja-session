@@ -5,17 +5,20 @@ use Puja\Db\Table;
 
 class SaveHandler implements SaveHandlerInterface
 {
-    protected $table;
+    protected $adapter;
+    protected $tableName;
     protected $lifeTime;
     protected $name;
 
     public function __construct(Configure $configure)
     {
         $this->lifeTime = $configure->getTtl();
-        $this->table = new Table($configure->getSessionTable());
+        $this->adapter = Table::getAdapter($configure->getAdapterName());
+        $this->tableName = $configure->getAdapterName();
+
         if ($configure->getCreateTable()) {
-            Table::getWriteAdapter()->execute('
-                CREATE TABLE IF NOT EXISTS ' . $configure->getSessionTable() . '(
+            $this->adapter->execute('
+                CREATE TABLE IF NOT EXISTS ' . $this->tableName . '(
                     `id` char(32),
                     `modified` int,
                     `lifetime` int,
@@ -37,7 +40,8 @@ class SaveHandler implements SaveHandlerInterface
 
     public function read($id)
     {
-        $row = $this->table->findOneByCriteria(sprintf('id = "%s"', $id));
+        $query = $this->adapter->select()->from($this->tableName)->where(array('id' => $id));
+        $row = $this->adapter->query($query);
         if (empty($row)) {
             return '';
         }
@@ -56,16 +60,16 @@ class SaveHandler implements SaveHandlerInterface
             'id' => $id,
             'lifetime' => $this->lifeTime,
         );
-        $this->table->replace($data);
+        $this->adapter->replace($this->tableName, $data);
     }
 
     public function destroy($id)
     {
-        $this->table->deleteByCriteria(sprintf('id = "%s"', $id));
+        $this->adapter->delete($this->tableName, array('id' => $id));
     }
     
     public function gc($maxlifetime)
     {
-        $this->table->deleteByCriteria(sprintf('%s < %d', 'modified', time() - $this->lifeTime));
+        $this->adapter->delete(sprintf('%s < %d', 'modified', time() - $this->lifeTime));
     }
 }

@@ -5,6 +5,7 @@ class Configure extends ConfigureAbstract
 {
     protected $cfg = array(
         'session_table' => 'puja_session_table',
+        'adapter_name' => null,
         'create_table' => false,
     );
 
@@ -16,5 +17,10 @@ class Configure extends ConfigureAbstract
     public function getCreateTable()
     {
         return $this->cfg['create_table'];
+    }
+
+    public function getAdapterName()
+    {
+        return $this->cfg['adapter_name'];
     }
 }

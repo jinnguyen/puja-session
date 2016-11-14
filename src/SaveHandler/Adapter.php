@@ -29,6 +29,9 @@ class Adapter
         }
 
         if ($cfgStandard->getSaveHandler() === self::DEFAULT_SAVEHANDLER) {
+            if (!empty($configure['savePath'])) {
+                ini_set('session.save_path', $configure['savePath']);
+            }
             return;
         }
 

@@ -1,4 +1,4 @@
-# puja-session
+# puja-session v1.1.0
 Handle session save data, supported save to file, database, MemCache, Redis
 
 Install
@@ -23,8 +23,11 @@ $session->start();
      'saveHandlerDir' => null, // the namespace to your SaveHandler folder, default: \Puja\Session\SaveHandler\
 );</pre>
 2. Base on each Save Handler will have some addition configures;<br />
-Ex: for SaveHandler: <strong>Db</strong> we have more options:<br />
+a/ <strong>File</strong>:<br />
+  - savePath: folder session will save to
+b/ <strong>Db</strong>:<br />
   - session_table: the table name that will be stored the session data<br />
+  - adapter_name: the db adapter name is used for db (View https://github.com/jinnguyen/puja-db for more detail)
   - create_table: true/false, if true the system will check and create table when Session start. Recommend: enable for the first you launch application after that disable forever.<br />
 <pre>$configure = array(
       'saveHandler' => Db,

@@ -1,0 +1,4 @@
+v1.1.0
+- Add configure adapter_name into SaveHandler Db
+- Add configure savePath into SaveHandler File
+- Add file Changes
